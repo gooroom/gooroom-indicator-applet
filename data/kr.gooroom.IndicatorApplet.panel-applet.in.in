@@ -1,0 +1,11 @@
+[Applet Factory]
+Id=GooroomIndicatorAppletFactory
+Location=@APPLET_LOCATION@
+InProcess=true
+Name=Gooroom Indicator Applet Factory
+Description=Factory for indicator
+
+[GooroomIndicatorApplet]
+_Name=Gooroom Indicator Applet
+_Description=Indicator applet for GNOME panel
+Icon=indicator-applet
