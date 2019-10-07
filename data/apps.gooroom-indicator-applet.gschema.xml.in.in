@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="@GETTEXT_PACKAGE@">
+  <schema id="apps.gooroom-indicator-applet" path="/apps/gooroom-indicator-applet/">
+    <key name="blacklist" type="as">
+      <default>[]</default>
+      <summary>Blacklist for AppIndicator</summary>
+      <description>List of AppIndicator modules not to be displayed.</description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,23 @@
+gooroom-indicator-applet (0.1.0+grm1u+dev5~1.gbpd967b0) unstable; urgency=medium
+
+  ** SNAPSHOT build @d967b0a2aacddda40012e03a8f9a270b6c48f20b **
+
+  [ cjheo ]
+  * updated #1
+  * Updated #2
+  * Update #3
+
+  [ user ]
+  * Fixes an issue where the popup menu is incorrectly positioned when multi-monitor
+  * Added blacklist function
+  * Update source regarding copyright
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Mon, 07 Oct 2019 20:41:42 +0900
+
+gooroom-indicator-applet (0.1.0+grm1u) unstable; urgency=medium
+
+  * Initial Release
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Sat, 05 Jan 2019 00:24:22 +0900
