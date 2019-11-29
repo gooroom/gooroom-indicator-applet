@@ -15,9 +15,6 @@ Build-Depends: automake (>= 1.13),
                libayatana-ido3-dev,
                libayatana-indicator3-dev
 Standards-Version: 4.1.1
-Homepage: http://www.gooroom.kr
-Vcs-Git: https://github.com/gooroom/gooroom-indicator-applet.git
-Vcs-Browser: https://github.com/gooroom/gooroom-indicator-applet
 
 Package: gooroom-indicator-applet
 Architecture: any
