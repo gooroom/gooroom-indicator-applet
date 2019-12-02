@@ -1,14 +1,5 @@
-gooroom-indicator-applet (0.1.0+grm2u1) unstable; urgency=medium
-
-  [ cjheo ]
-  * [2a031199] Update sources regarding copyright
-
-  [ Gooroom Autobuilder ]
-
- -- Gooroom Autobuilder <jenkins@gooroom.kr>  Sun, 01 Dec 2019 18:51:53 +0900
-
-gooroom-indicator-applet (0.1.0+grm2) unstable; urgency=medium
+gooroom-indicator-applet (0.1.1+grm2u1) unstable; urgency=medium
 
   * Initial Release
 
- -- jongkyung.woo <jkwoo@gooroom.kr>  Wed, 06 Nov 2019 16:49:01 +0900
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Mon, 02 Dec 2019 13:12:53 +0900
