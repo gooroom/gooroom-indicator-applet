@@ -48,7 +48,8 @@ struct _XfceIndicatorButton
   GtkWidget            *icon;
   GtkWidget            *label;
 
-  gulong                deactivate_id;
+  guint                 deactivate_id;
+  guint                 size_alloc_id;
 };
 
 struct _XfceIndicatorButtonClass
@@ -122,31 +123,20 @@ static gboolean
 xfce_indicator_button_button_press (GtkWidget      *widget,
                                     GdkEventButton *event)
 {
-	GdkRectangle rect;
-	GtkAllocation alloc;
 	XfceIndicatorButton *button = XFCE_INDICATOR_BUTTON (widget);
-
-	gtk_widget_get_allocation (widget, &alloc);
 
 	if(event->button == 1 && button->menu != NULL) /* left click only */
 	{
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),TRUE);
-		button->deactivate_id = g_signal_connect_swapped
-			(G_OBJECT (button->menu), "deactivate",
-			 G_CALLBACK (xfce_indicator_button_menu_deactivate), button);
+		button->deactivate_id = g_signal_connect_swapped (G_OBJECT (button->menu),
+				"deactivate",
+				G_CALLBACK (xfce_indicator_button_menu_deactivate), button);
+
+		gtk_menu_popup_at_widget (button->menu, GTK_WIDGET (gtk_widget_get_parent (GTK_WIDGET (button))),
+                                  GDK_GRAVITY_NORTH_WEST, GDK_GRAVITY_SOUTH_WEST,
+                                  (GdkEvent *)event);
+
 		gtk_menu_reposition (GTK_MENU (button->menu));
-
-		rect.x = alloc.x;
-		rect.y = alloc.y;
-		rect.width = alloc.width;
-		rect.height = alloc.height;
-
-        gtk_menu_popup_at_rect (GTK_MENU (button->menu),
-                                gtk_widget_get_window (widget),
-                                &rect,
-                                GDK_GRAVITY_NORTH_WEST,
-                                GDK_GRAVITY_NORTH_WEST,
-                                NULL);
 
 		return TRUE;
 	}
@@ -186,6 +176,7 @@ xfce_indicator_button_init (XfceIndicatorButton *button)
 	button->icon = NULL;
 	button->label = NULL;
 	button->deactivate_id = 0;
+	button->size_alloc_id = 0;
 
 	gtk_widget_set_halign (GTK_WIDGET (button), GTK_ALIGN_FILL);
 	gtk_widget_set_valign (GTK_WIDGET (button), GTK_ALIGN_FILL);
@@ -261,6 +252,14 @@ xfce_indicator_button_set_image (XfceIndicatorButton *button,
 	gtk_widget_show (button->icon);
 }
 
+static void
+menu_size_allocate_cb (GtkWidget     *widget,
+                       GtkAllocation *allocation,
+                       gpointer       user_data)
+{
+	gtk_menu_reposition (GTK_MENU (widget));
+}
+
 void
 xfce_indicator_button_set_menu (XfceIndicatorButton *button,
                                 GtkMenu             *menu)
@@ -269,6 +268,10 @@ xfce_indicator_button_set_menu (XfceIndicatorButton *button,
 	g_return_if_fail (GTK_IS_MENU (menu));
 
 	if (button->menu != NULL) {
+		if (button->size_alloc_id) {
+			g_signal_handler_disconnect (button->menu, button->size_alloc_id);
+			button->size_alloc_id = 0;
+		}
 		gtk_menu_detach (button->menu);
 		gtk_menu_popdown (button->menu);
 		button->menu = NULL;
@@ -276,6 +279,10 @@ xfce_indicator_button_set_menu (XfceIndicatorButton *button,
 
 	button->menu = menu;
 	gtk_menu_attach_to_widget (menu, GTK_WIDGET (button), NULL);
+
+	button->size_alloc_id = g_signal_connect (G_OBJECT (button->menu),
+                                              "size-allocate",
+                                              G_CALLBACK (menu_size_allocate_cb), button);
 }
 
 IndicatorObjectEntry *
