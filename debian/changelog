@@ -1,3 +1,13 @@
+gooroom-indicator-applet (0.1.2+grm2u1) unstable; urgency=medium
+
+  [ cjheo ]
+  * [8f69771e] copyright 문구 수정
+  * [64bec754] [Bug:1544,1545] Indicator Application 팝업메뉴 위치 오류 수정
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Tue, 11 Feb 2020 10:20:31 +0900
+
 gooroom-indicator-applet (0.1.1+grm2u1) unstable; urgency=medium
 
   * Initial Release
