@@ -1,5 +1,5 @@
 /* 
- *  Copyright (C) 2015-2019 Gooroom <gooroom@gooroom.kr>
+ *  Copyright (C) 2015-2021 Gooroom <gooroom@gooroom.kr>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 
 G_BEGIN_DECLS
 
-#include <panel-applet.h>
+#include <libgnome-panel/gp-applet.h>
 
 #define GOOROOM_TYPE_INDICATOR_APPLET            (gooroom_indicator_applet_get_type ())
 #define GOOROOM_INDICATOR_APPLET(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GOOROOM_TYPE_INDICATOR_APPLET, GooroomIndicatorApplet))
@@ -35,12 +35,12 @@ typedef struct _GooroomIndicatorAppletClass   GooroomIndicatorAppletClass;
 typedef struct _GooroomIndicatorAppletPrivate GooroomIndicatorAppletPrivate;
 
 struct _GooroomIndicatorApplet {
-    PanelApplet            parent;
+    GpApplet                       parent;
     GooroomIndicatorAppletPrivate *priv;
 };
 
 struct _GooroomIndicatorAppletClass {
-    PanelAppletClass parent_class;
+    GpAppletClass parent_class;
 };
 
 GType gooroom_indicator_applet_get_type (void) G_GNUC_CONST;

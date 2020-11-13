@@ -1,22 +1,9 @@
-appletdir       = $(LIBPANEL_APPLET_DIR)
-applet_in_files = kr.gooroom.IndicatorApplet.panel-applet.in
-applet_DATA     = $(applet_in_files:.panel-applet.in=.panel-applet)
-
-APPLET_LOCATION=$(pkglibdir)/libgooroom-indicator-applet.so
-
-$(applet_in_files): $(applet_in_files).in Makefile
-	$(AM_V_GEN)sed \
-            -e "s|\@APPLET_LOCATION\@|$(APPLET_LOCATION)|" \
-            -e "s|\@VERSION\@|$(PACKAGE_VERSION)|" \
-            $< > $@
-
 gsettings_schemas_in_in = \
 	apps.gooroom-indicator-applet.gschema.xml.in.in
-
-@INTLTOOL_XML_NOMERGE_RULE@
-
 gsettings_schemas_in = $(gsettings_schemas_in_in:.xml.in.in=.xml.in)
 gsettings_SCHEMAS = $(gsettings_schemas_in:.xml.in=.xml)
+
+@INTLTOOL_XML_NOMERGE_RULE@
 
 %.gschema.xml.in: %.gschema.xml.in.in Makefile
 	$(AM_V_GEN) $(SED) -e 's^\@GETTEXT_PACKAGE\@^$(GETTEXT_PACKAGE)^g' < $< > $@
