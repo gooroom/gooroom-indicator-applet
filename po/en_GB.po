@@ -7,17 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gooroom-indicator-applet 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 00:37+0900\n"
+"POT-Creation-Date: 2021-03-10 18:32+0900\n"
 "PO-Revision-Date: 2019-01-05 00:37+0900\n"
 "Language-Team: Gooroom <gooroom@gooroom.kr>\n"
-"Language: en_GB\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: ../data/kr.gooroom.IndicatorApplet.panel-applet.in.in.h:1
 msgid "Gooroom Indicator Applet"
 msgstr "Gooroom Indicator Applet"
 
+#: ../data/kr.gooroom.IndicatorApplet.panel-applet.in.in.h:2
 msgid "Indicator applet for GNOME panel"
 msgstr "Indicator applet for GNOME panel"

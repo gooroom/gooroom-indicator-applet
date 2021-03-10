@@ -57,25 +57,25 @@ contain_blacklist (const gchar *module_name)
 {
 	gboolean ret = FALSE;
 	GSettingsSchema *schema;
-	GSettingsSchemaSource *schema_source;
-	const gchar *schema_id = "apps.gooroom-indicator-applet";
 
 	g_return_val_if_fail (module_name != NULL, FALSE);
 
-	schema_source = g_settings_schema_source_get_default ();
-	schema = g_settings_schema_source_lookup (schema_source, schema_id, FALSE);
-	if (g_settings_schema_has_key (schema, "blacklist")) {
-		GSettings *gsettings = g_settings_new (schema_id);
-		gchar **blacklist = g_settings_get_strv (gsettings, "blacklist");
+	schema = g_settings_schema_source_lookup (g_settings_schema_source_get_default (),
+                                              "apps.gooroom-indicator-applet",
+                                              TRUE);
 
-		if (g_strv_contains ((const gchar * const *) blacklist, module_name))
-			ret = TRUE;
+	if (schema) {
+		GSettings *gsettings = g_settings_new_full (schema, NULL, NULL);
+		if (gsettings) {
+			gchar **blacklist = g_settings_get_strv (gsettings, "blacklist");
+			if (blacklist && g_strv_contains ((const gchar * const *) blacklist, module_name))
+				ret = TRUE;
 
-		g_strfreev (blacklist);
-		g_object_unref (gsettings);
+			g_strfreev (blacklist);
+			g_object_unref (gsettings);
+		}
+		g_settings_schema_unref (schema);
 	}
-
-	g_settings_schema_unref (schema);
 
 	return ret;
 }
