@@ -1,3 +1,12 @@
+gooroom-indicator-applet (0.1.3+grm2u1) unstable; urgency=medium
+
+  [ cjheo ]
+  * [c955e895] 블랙리스트 적용시 스키마찾기 잠재적 오류 수정
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Thu, 01 Apr 2021 09:47:50 +0900
+
 gooroom-indicator-applet (0.1.2+grm2u1) unstable; urgency=medium
 
   [ cjheo ]
