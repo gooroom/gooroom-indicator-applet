@@ -1,3 +1,10 @@
+gooroom-indicator-applet (0.3.0+grm3u1) unstable; urgency=medium
+
+  [ subin.kim ]
+  * [bfc23660] porting to gooroom-3.0
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Sun, 05 Dec 2021 13:29:34 +0900
+
 gooroom-indicator-applet (0.1.3+grm2u1) unstable; urgency=medium
 
   [ cjheo ]

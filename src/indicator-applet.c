@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2015-2019 Gooroom <gooroom@gooroom.kr>
+ *  Copyright (C) 2015-2021 Gooroom <gooroom@gooroom.kr>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -31,10 +31,10 @@
 
 #include <gtk/gtk.h>
 
-#include <panel-applet.h>
+#include <libgnome-panel/gp-applet.h>
 
 #include "indicator-button.h"
-#include "gooroom-indicator-applet.h"
+#include "indicator-applet.h"
 
 #include <libayatana-ido/libayatana-ido.h>
 #include <libayatana-indicator/indicator-ng.h>
@@ -48,7 +48,7 @@ struct _GooroomIndicatorAppletPrivate
 };
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (GooroomIndicatorApplet, gooroom_indicator_applet, PANEL_TYPE_APPLET)
+G_DEFINE_TYPE_WITH_PRIVATE (GooroomIndicatorApplet, gooroom_indicator_applet, GP_TYPE_APPLET)
 
 
 
@@ -56,13 +56,12 @@ static gboolean
 contain_blacklist (const gchar *module_name)
 {
 	gboolean ret = FALSE;
-	GSettingsSchema *schema;
+	GSettingsSchema *schema = NULL;
 
 	g_return_val_if_fail (module_name != NULL, FALSE);
 
 	schema = g_settings_schema_source_lookup (g_settings_schema_source_get_default (),
-                                              "apps.gooroom-indicator-applet",
-                                              TRUE);
+                                              "apps.gooroom-indicator-applet", TRUE);
 
 	if (schema) {
 		GSettings *gsettings = g_settings_new_full (schema, NULL, NULL);
@@ -74,6 +73,7 @@ contain_blacklist (const gchar *module_name)
 			g_strfreev (blacklist);
 			g_object_unref (gsettings);
 		}
+
 		g_settings_schema_unref (schema);
 	}
 
@@ -185,6 +185,7 @@ load_module (GooroomIndicatorApplet *applet, const gchar *name)
 
 	/* Build the object for the module */
 	path = g_build_filename (INDICATOR_DIR, name, NULL);
+
 	io = indicator_object_new_from_file (path);
 	g_free (path);
 
@@ -213,18 +214,41 @@ load_modules (GooroomIndicatorApplet *applet)
 }
 
 static void
+gooroom_indicator_applet_finalize (GObject *object)
+{
+	GooroomIndicatorApplet *applet = GOOROOM_INDICATOR_APPLET (object);
+	GooroomIndicatorAppletPrivate *priv = applet->priv;
+
+	G_OBJECT_CLASS (gooroom_indicator_applet_parent_class)->finalize (object);
+}
+
+static gboolean
+gooroom_indicator_applet_fill (GooroomIndicatorApplet *applet)
+{
+	g_return_val_if_fail (GP_IS_APPLET (applet), FALSE);
+
+	gtk_widget_show_all (GTK_WIDGET (applet));
+
+	return TRUE;
+}
+
+static void
+gooroom_indicator_applet_constructed (GObject *object)
+{
+	GooroomIndicatorApplet *applet = GOOROOM_INDICATOR_APPLET (object);
+
+	gooroom_indicator_applet_fill (GOOROOM_INDICATOR_APPLET (applet));
+}
+
+static void
 gooroom_indicator_applet_init (GooroomIndicatorApplet *applet)
 {
 	GtkCssProvider *provider = NULL;
 	GooroomIndicatorAppletPrivate *priv;
 
-	/* Initialize i18n */
-	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-
 	priv = applet->priv = gooroom_indicator_applet_get_instance_private (applet);
 
-	panel_applet_set_flags (PANEL_APPLET (applet), PANEL_APPLET_EXPAND_MINOR);
+	gp_applet_set_flags (GP_APPLET (applet), GP_APPLET_FLAGS_EXPAND_MINOR);
 	gtk_container_set_border_width (GTK_CONTAINER (applet), 0);
 
 	/* Init some theme/icon stuff */
@@ -238,48 +262,12 @@ gooroom_indicator_applet_init (GooroomIndicatorApplet *applet)
 }
 
 static void
-gooroom_indicator_applet_finalize (GObject *object)
-{
-	GooroomIndicatorApplet *applet = GOOROOM_INDICATOR_APPLET (object);
-	GooroomIndicatorAppletPrivate *priv = applet->priv;
-
-	G_OBJECT_CLASS (gooroom_indicator_applet_parent_class)->finalize (object);
-}
-
-static void
 gooroom_indicator_applet_class_init (GooroomIndicatorAppletClass *class)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
 
+	object_class->constructed = gooroom_indicator_applet_constructed;
 	object_class->finalize = gooroom_indicator_applet_finalize;
 }
-
-static gboolean
-gooroom_indicator_applet_fill (GooroomIndicatorApplet *applet)
-{
-	g_return_val_if_fail (PANEL_IS_APPLET (applet), FALSE);
-
-	gtk_widget_show_all (GTK_WIDGET (applet));
-
-	return TRUE;
-}
-
-static gboolean
-gooroom_indicator_applet_factory (PanelApplet *applet,
-                                    const gchar *iid,
-                                    gpointer     data)
-{
-	gboolean retval = FALSE;
-
-	if (!g_strcmp0 (iid, "GooroomIndicatorApplet"))
-		retval = gooroom_indicator_applet_fill (GOOROOM_INDICATOR_APPLET (applet));
-
-	return retval;
-}
-
-PANEL_APPLET_IN_PROCESS_FACTORY ("GooroomIndicatorAppletFactory",
-                                 GOOROOM_TYPE_INDICATOR_APPLET,
-                                 gooroom_indicator_applet_factory,
-                                 NULL)
