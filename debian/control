@@ -5,7 +5,7 @@ Maintainer: Gooroom Maintainers <gooroom@gooroom.kr>
 Build-Depends: automake (>= 1.13),
                autoconf,
                autotools-dev,
-               debhelper (>= 13),
+               debhelper-compat (= 13),
                gnome-pkg-tools (>= 0.17),
                gnome-common,
                intltool (>= 0.35.0),
@@ -14,7 +14,7 @@ Build-Depends: automake (>= 1.13),
                libgnome-panel-dev (>= 3.38.0),
                libayatana-ido3-dev,
                libayatana-indicator3-dev
-Standards-Version: 4.1.1
+Standards-Version: 4.6.2
 
 Package: gooroom-indicator-applet
 Architecture: any
