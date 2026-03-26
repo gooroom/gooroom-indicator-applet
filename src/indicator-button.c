@@ -169,6 +169,8 @@ xfce_indicator_button_init (XfceIndicatorButton *button)
 	gtk_button_set_use_underline (GTK_BUTTON (button),TRUE);
 	gtk_widget_set_focus_on_click (GTK_WIDGET (button), FALSE);
 	gtk_widget_set_name (GTK_WIDGET (button), "gooroom-indicator-applet-button");
+	gtk_widget_set_margin_start (GTK_WIDGET (button), 10);
+	gtk_widget_set_margin_end (GTK_WIDGET (button), 10);
 
 	button->io = NULL;
 	button->entry = NULL;
@@ -245,6 +247,7 @@ xfce_indicator_button_set_image (XfceIndicatorButton *button,
 		gtk_container_remove (GTK_CONTAINER (button->box), button->icon);
 
 	button->icon = GTK_WIDGET (image);
+	gtk_image_set_pixel_size (image, 24);
 	g_signal_connect (G_OBJECT (button->icon), "notify::pixbuf",
 			G_CALLBACK (xfce_indicator_button_icon_changed), button);
 
