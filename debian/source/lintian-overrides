@@ -1,0 +1,4 @@
+gooroom-indicator-applet source: no-nmu-in-changelog
+gooroom-indicator-applet source: source-nmu-has-incorrect-version-number
+gooroom-indicator-applet source: latest-debian-changelog-entry-without-new-date
+gooroom-indicator-applet source: unknown-field Original-Maintainer
